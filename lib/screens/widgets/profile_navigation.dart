@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:strategic_turtles/models/models.dart';
+import 'package:strategic_turtles/utils/constants.dart';
 
 class ProfileNavigation extends StatelessWidget {
   const ProfileNavigation({
@@ -25,9 +26,10 @@ class ProfileNavigation extends StatelessWidget {
           ),
           SizedBox(width: 8.0),
           Text(
-            '${user.firstName} ${user.lastName}',
-            style: TextStyle(
-                color: Theme.of(context).textSelectionColor),
+            user.role == Constants.Broker
+                ? '${user.firstName} ${user.lastName}'
+                : '${user.farmName}',
+            style: TextStyle(color: Theme.of(context).textSelectionColor),
           ),
         ],
       ),
