@@ -5,6 +5,7 @@ class UserModel {
   String firstName;
   String lastName;
   String role;
+  String farmName;
   String photoUrl;
 
   UserModel({
@@ -13,6 +14,7 @@ class UserModel {
     this.firstName,
     this.lastName,
     this.role,
+    this.farmName,
     this.photoUrl,
   });
 
@@ -23,6 +25,7 @@ class UserModel {
       firstName: data['firstName'] ?? '',
       lastName: data['lastName'] ?? '',
       role: data['role'] ?? '',
+      farmName: data['farmName'],
       photoUrl: data['photoUrl'] ?? '',
     );
   }
@@ -33,6 +36,7 @@ class UserModel {
         "firstName": firstName,
         "lastName": lastName,
         "role": role,
+        "farmName": farmName,
         "photoUrl": photoUrl
       };
 }
