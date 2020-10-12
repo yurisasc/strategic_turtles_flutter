@@ -21,6 +21,7 @@ class _SignUpFormState extends State<SignUpForm> {
   String _firstName;
   String _lastName;
   String _email;
+  String _farmName;
   String _password;
   String _selectedRole;
 
@@ -90,10 +91,28 @@ class _SignUpFormState extends State<SignUpForm> {
             validators: [FormBuilderValidators.required()],
             items: _roles,
             allowClear: true,
+            onChanged: (value) {
+              setState(() {
+                _selectedRole = value;
+              });
+            },
             onSaved: (value) {
               _selectedRole = value;
             },
           ),
+          _selectedRole == Constants.Farmer
+              ? FormBuilderTextField(
+                  decoration: const InputDecoration(
+                    filled: true,
+                    prefixIcon: Icon(Icons.water_damage),
+                    labelText: 'Farm name',
+                  ),
+                  validators: [FormBuilderValidators.required()],
+                  onSaved: (value) {
+                    _farmName = value;
+                  },
+                )
+              : SizedBox.shrink(),
           FormBuilderTextField(
             decoration: InputDecoration(
               filled: true,
@@ -114,7 +133,7 @@ class _SignUpFormState extends State<SignUpForm> {
             width: double.infinity,
             child: RaisedButton(
               onPressed: () {
-                if(_formKey.currentState.saveAndValidate()) {
+                if (_formKey.currentState.saveAndValidate()) {
                   _signUp();
                 }
               },
@@ -137,6 +156,7 @@ class _SignUpFormState extends State<SignUpForm> {
       _lastName,
       _email,
       _selectedRole,
+      _farmName,
       _password,
     );
   }

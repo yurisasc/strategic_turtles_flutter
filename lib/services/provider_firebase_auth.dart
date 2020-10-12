@@ -41,6 +41,7 @@ class AuthProvider with ChangeNotifier {
     String lastName,
     String email,
     String role,
+    String farmName,
     String password,
   ) async {
     try {
@@ -56,6 +57,7 @@ class AuthProvider with ChangeNotifier {
             firstName: firstName,
             lastName: lastName,
             role: role,
+            farmName: farmName,
             photoUrl: null);
         //update the user in firestore
         _updateUserFirestore(_newUser, result.user);
