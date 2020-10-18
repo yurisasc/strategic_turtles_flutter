@@ -26,10 +26,6 @@ class RequestItemReceiver extends StatelessWidget {
               'Sent by: ${request.senderName}',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Text(
-              'Paddock name: ${request.paddockName}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 8.0),
             Text(
               'Status: ${request.status}',

@@ -28,13 +28,13 @@ class RequestsProvider with ChangeNotifier {
     String senderId,
     String senderName,
     String receiverId,
-    String paddockId,
+    String receiverFarmName,
   ) async {
     final request = RequestModel(
       senderId: senderId,
       senderName: senderName,
       receiverId: receiverId,
-      paddockId: paddockId,
+      receiverFarmName: receiverFarmName,
       status: Constants.Pending,
     );
     try {

@@ -2,16 +2,14 @@ class RequestModel {
   String senderId;
   String senderName;
   String receiverId;
-  String paddockName;
-  String paddockId;
+  String receiverFarmName;
   String status;
 
   RequestModel({
     this.senderId,
     this.senderName,
     this.receiverId,
-    this.paddockName,
-    this.paddockId,
+    this.receiverFarmName,
     this.status,
   });
 
@@ -20,8 +18,7 @@ class RequestModel {
       senderId: data['senderId'],
       senderName: data['senderName'],
       receiverId: data['receiverId'],
-      paddockName: data['paddockName'],
-      paddockId: data['paddockId'],
+      receiverFarmName: data['receiverFarmName'],
       status: data['status'],
     );
   }
@@ -30,7 +27,7 @@ class RequestModel {
     "senderId": senderId,
     "senderName": senderName,
     "receiverId": receiverId,
-    "paddockId": paddockId,
+    "receiverFarmName": receiverFarmName,
     "status": status,
   };
 }
