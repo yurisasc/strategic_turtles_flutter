@@ -67,7 +67,7 @@ class _BrokerHomeScreenState extends State<BrokerHomeScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          _showMyDialog();
+          _showFarmSearchDialog();
         },
         label: Text('Add Paddock '),
         icon: Icon(Icons.add),
@@ -75,10 +75,10 @@ class _BrokerHomeScreenState extends State<BrokerHomeScreen> {
     );
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showFarmSearchDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: true, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return ChangeNotifierProvider(
           create: (context) => FarmSearchService(),

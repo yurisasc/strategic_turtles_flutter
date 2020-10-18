@@ -13,7 +13,7 @@ class PaddockProvider with ChangeNotifier {
           .where('ownerId', isEqualTo: firebaseUid)
           .snapshots()
           .map((snapshot) => snapshot.docs
-              .map((e) => PaddockModel.fromMap(e.data()))
+              .map((e) => PaddockModel.fromSnapshot(e))
               .toList());
     } else {
       return _db
@@ -21,14 +21,14 @@ class PaddockProvider with ChangeNotifier {
           .where('brokerId', isEqualTo: firebaseUid)
           .snapshots()
           .map((snapshot) => snapshot.docs
-              .map((e) => PaddockModel.fromMap(e.data()))
+              .map((e) => PaddockModel.fromSnapshot(e))
               .toList());
     }
   }
 
   Stream<List<PaddockModel>> getAllPaddocks() {
     return _db.collection('/paddocks/').snapshots().map((snapshot) =>
-        snapshot.docs.map((e) => PaddockModel.fromMap(e.data())).toList());
+        snapshot.docs.map((e) => PaddockModel.fromSnapshot(e)).toList());
   }
 
   Future<bool> createPaddock(
@@ -41,10 +41,9 @@ class PaddockProvider with ChangeNotifier {
     DateTime harvestDate,
     int numSeed,
   ) async {
-    String id = _db.collection('/paddocks/').doc().id;
     final paddock = PaddockModel(
-      id: id,
       ownerId: ownerId,
+      brokerId: null,
       name: name,
       latitude: latitude,
       longitude: longitude,
@@ -52,6 +51,8 @@ class PaddockProvider with ChangeNotifier {
       cropName: cropName,
       harvestDate: harvestDate,
       numSeed: numSeed,
+      estimatedYield: null,
+      potentialProfit: null,
     );
     try {
       await _db.collection('/paddocks/').add(paddock.toJson());

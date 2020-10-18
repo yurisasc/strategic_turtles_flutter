@@ -15,7 +15,7 @@ class FarmSearchService with ChangeNotifier {
           .where('senderId', isEqualTo: uid)
           .get()
           .then((value) => value.docs
-              .map((e) => RequestModel.fromMap(e.data()).receiverId)
+              .map((e) => RequestModel.fromSnapshot(e).receiverId)
               .toList());
 
       final result = await _db

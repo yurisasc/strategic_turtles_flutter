@@ -1,62 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:strategic_turtles/models/models.dart';
-import 'package:strategic_turtles/screens/broker/services/farm_search_service.dart';
+import 'package:strategic_turtles/screens/farmer/services/paddock_search_service.dart';
 import 'package:strategic_turtles/services/provider_requests.dart';
+import 'package:strategic_turtles/services/services.dart';
 
-class FarmSearch extends StatefulWidget {
-  final UserModel user;
+class PaddockSearch extends StatefulWidget {
+  final RequestModel request;
 
-  const FarmSearch({
+  const PaddockSearch({
     Key key,
-    this.user,
+    @required this.request,
   }) : super(key: key);
 
   @override
-  _FarmSearchState createState() => _FarmSearchState();
+  _PaddockSearchState createState() => _PaddockSearchState();
 }
 
-class _FarmSearchState extends State<FarmSearch> {
-  UserModel selectedFarm;
+class _PaddockSearchState extends State<PaddockSearch> {
+  PaddockModel selectedPaddock;
   int selectedIndex;
+  String uid;
 
-  initiateSearch(value) {
-    final farmSearchService =
-        Provider.of<FarmSearchService>(context, listen: false);
-    farmSearchService.searchFarm(widget.user.uid, value);
+  @override
+  void initState() {
+    super.initState();
+    final paddockSearchService =
+        Provider.of<PaddockSearchService>(context, listen: false);
+    final authService = Provider.of<AuthProvider>(context, listen: false);
+
+    uid = authService.getUser.uid;
+    paddockSearchService.searchPaddock(uid, "");
   }
 
   @override
   Widget build(BuildContext context) {
-    final farmSearchService =
-        Provider.of<FarmSearchService>(context, listen: false);
+    final paddockSearchService =
+        Provider.of<PaddockSearchService>(context, listen: false);
     final requestsService =
         Provider.of<RequestsProvider>(context, listen: false);
 
     return AlertDialog(
-      title: Text('Select a Farm'),
+      title: Text('Assign a Paddock'),
       content: SingleChildScrollView(
         child: ListBody(
-          children: <Widget>[
+          children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
                 onChanged: (val) {
-                  initiateSearch(val);
+                  paddockSearchService.searchPaddock(uid, val);
                 },
                 decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     contentPadding: EdgeInsets.only(left: 25.0),
-                    hintText: 'Search by farm name',
+                    hintText: 'Search by paddock name',
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0))),
+                      borderRadius: BorderRadius.circular(4.0),
+                    )),
               ),
             ),
             SizedBox(height: 10.0),
             Container(
               width: double.minPositive,
-              child: ValueListenableBuilder<List<UserModel>>(
-                  valueListenable: farmSearchService.farmers,
+              child: ValueListenableBuilder<List<PaddockModel>>(
+                  valueListenable: paddockSearchService.paddocks,
                   builder: (context, farmers, _) {
                     return ListView.builder(
                       padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -64,13 +72,13 @@ class _FarmSearchState extends State<FarmSearch> {
                       shrinkWrap: true,
                       itemCount: farmers.length,
                       itemBuilder: (context, idx) {
-                        return FarmItem(
+                        return PaddockItem(
                           selected: selectedIndex == idx,
                           data: farmers[idx],
-                          onSelected: (UserModel data) {
+                          onSelected: (PaddockModel data) {
                             setState(() {
                               selectedIndex = idx;
-                              selectedFarm = data;
+                              selectedPaddock = data;
                             });
                           },
                         );
@@ -84,15 +92,14 @@ class _FarmSearchState extends State<FarmSearch> {
       actionsPadding: const EdgeInsets.all(16.0),
       actions: <Widget>[
         TextButton(
-          child: Text('Send request'),
-          onPressed: selectedFarm != null
+          child: Text('Accept request'),
+          onPressed: selectedPaddock != null
               ? () {
-                  requestsService.createRequest(
-                      widget.user.uid,
-                      '${widget.user.firstName} ${widget.user.lastName}',
-                      selectedFarm.uid,
-                      selectedFarm.farmName);
-                  Navigator.of(context).pop();
+                  requestsService.acceptRequest(
+                    widget.request.id,
+                    widget.request.senderId,
+                    selectedPaddock.id,
+                  );
                 }
               : null,
         ),
@@ -101,18 +108,19 @@ class _FarmSearchState extends State<FarmSearch> {
   }
 }
 
-class FarmItem extends StatelessWidget {
-  final Function(UserModel) onSelected;
+class PaddockItem extends StatelessWidget {
+  final Function(PaddockModel) onSelected;
   final bool selected;
-  final UserModel data;
+  final PaddockModel data;
 
-  const FarmItem({
+  const PaddockItem({
     Key key,
-    @required this.data,
     this.onSelected,
     this.selected,
+    this.data,
   }) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -123,11 +131,11 @@ class FarmItem extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         elevation: 2.0,
         child: Container(
-          decoration: BoxDecoration(
-              color: selected ? Colors.lightGreen : Colors.white),
+          decoration:
+              BoxDecoration(color: selected ? Colors.lightGreen : Colors.white),
           child: Center(
             child: Text(
-              data.farmName,
+              data.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: selected ? Colors.white : Colors.black,
