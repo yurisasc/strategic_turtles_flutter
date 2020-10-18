@@ -12,7 +12,7 @@ class RequestsProvider with ChangeNotifier {
         .where('senderId', isEqualTo: firebaseUid)
         .snapshots()
         .map((snapshot) =>
-            snapshot.docs.map((e) => RequestModel.fromMap(e.data())).toList());
+            snapshot.docs.map((e) => RequestModel.fromSnapshot(e)).toList());
   }
 
   Stream<List<RequestModel>> getReceivedRequests(String firebaseUid) {
@@ -21,7 +21,7 @@ class RequestsProvider with ChangeNotifier {
         .where('receiverId', isEqualTo: firebaseUid)
         .snapshots()
         .map((snapshot) =>
-            snapshot.docs.map((e) => RequestModel.fromMap(e.data())).toList());
+            snapshot.docs.map((e) => RequestModel.fromSnapshot(e)).toList());
   }
 
   Future<bool> createRequest(
@@ -30,7 +30,9 @@ class RequestsProvider with ChangeNotifier {
     String receiverId,
     String receiverFarmName,
   ) async {
+    String id = _db.collection('/requests/').doc().id;
     final request = RequestModel(
+      id: id,
       senderId: senderId,
       senderName: senderName,
       receiverId: receiverId,
@@ -44,4 +46,28 @@ class RequestsProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> acceptRequest(
+    String requestId,
+    String brokerId,
+    String paddockId,
+  ) async {
+    try {
+      await _db
+          .collection('/requests/')
+          .doc(requestId)
+          .update({'status': Constants.Accepted});
+    } catch (_) {
+      return false;
+    }
+
+    await _db
+        .collection('/paddocks/')
+        .doc(paddockId)
+        .update({'brokerId': brokerId});
+
+    return true;
+  }
+
+  Future<bool> declineRequest() {}
 }

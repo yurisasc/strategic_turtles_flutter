@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class RequestModel {
+  String id;
   String senderId;
   String senderName;
   String receiverId;
@@ -6,6 +9,7 @@ class RequestModel {
   String status;
 
   RequestModel({
+    this.id,
     this.senderId,
     this.senderName,
     this.receiverId,
@@ -13,8 +17,12 @@ class RequestModel {
     this.status,
   });
 
-  factory RequestModel.fromMap(Map data) {
+  factory RequestModel.fromSnapshot(QueryDocumentSnapshot snapshot) {
+    final id = snapshot.id;
+    final data = snapshot.data();
+
     return RequestModel(
+      id: id,
       senderId: data['senderId'],
       senderName: data['senderName'],
       receiverId: data['receiverId'],
@@ -24,6 +32,7 @@ class RequestModel {
   }
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "senderId": senderId,
     "senderName": senderName,
     "receiverId": receiverId,

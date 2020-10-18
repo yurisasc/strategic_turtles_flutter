@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PaddockModel {
   String id;
   String ownerId;
@@ -27,9 +29,12 @@ class PaddockModel {
     this.potentialProfit,
   });
 
-  factory PaddockModel.fromMap(Map data) {
+  factory PaddockModel.fromSnapshot(QueryDocumentSnapshot snapshot) {
+    final id = snapshot.id;
+    final data = snapshot.data();
+
     return PaddockModel(
-      id: data['id'],
+      id: id,
       ownerId: data['ownerId'],
       brokerId: data['brokerId'],
       name: data['name'],
