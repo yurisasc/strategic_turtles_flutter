@@ -7,10 +7,12 @@ import 'package:strategic_turtles/services/services.dart';
 
 class PaddockSearch extends StatefulWidget {
   final RequestModel request;
+  final Function onSuccess;
 
   const PaddockSearch({
     Key key,
     @required this.request,
+    this.onSuccess,
   }) : super(key: key);
 
   @override
@@ -94,12 +96,16 @@ class _PaddockSearchState extends State<PaddockSearch> {
         TextButton(
           child: Text('Accept request'),
           onPressed: selectedPaddock != null
-              ? () {
-                  requestsService.acceptRequest(
+              ? () async {
+                  final result = await requestsService.acceptRequest(
                     widget.request.id,
                     widget.request.senderId,
                     selectedPaddock.id,
                   );
+                  if (result) {
+                    widget.onSuccess.call();
+                    Navigator.of(context).pop();
+                  }
                 }
               : null,
         ),

@@ -69,5 +69,15 @@ class RequestsProvider with ChangeNotifier {
     return true;
   }
 
-  Future<bool> declineRequest() {}
+  Future<bool> declineRequest(String requestId) async {
+    try {
+      await _db
+          .collection('/requests/')
+          .doc(requestId)
+          .update({'status': Constants.Rejected});
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 }

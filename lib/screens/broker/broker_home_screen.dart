@@ -69,7 +69,7 @@ class _BrokerHomeScreenState extends State<BrokerHomeScreen> {
         onPressed: () {
           _showFarmSearchDialog();
         },
-        label: Text('Add Paddock '),
+        label: Text('Add Farm '),
         icon: Icon(Icons.add),
       ),
     );

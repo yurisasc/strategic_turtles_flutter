@@ -42,6 +42,7 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: PaddockForm(
+                        user: widget.user,
                         coordinate: _selectedLocation?.position,
                         callback: widget.callback.call,
                       ),

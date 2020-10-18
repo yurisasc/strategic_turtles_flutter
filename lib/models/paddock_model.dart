@@ -5,6 +5,7 @@ class PaddockModel {
   String ownerId;
   String brokerId;
   String name;
+  String farmName;
   double latitude;
   double longitude;
   double sqmSize;
@@ -19,6 +20,7 @@ class PaddockModel {
     this.ownerId,
     this.brokerId,
     this.name,
+    this.farmName,
     this.latitude,
     this.longitude,
     this.sqmSize,
@@ -38,6 +40,7 @@ class PaddockModel {
       ownerId: data['ownerId'],
       brokerId: data['brokerId'],
       name: data['name'],
+      farmName: data['farmName'],
       latitude: data['latitude'],
       longitude: data['longitude'],
       sqmSize: data['sqmSize'],
@@ -55,6 +58,7 @@ class PaddockModel {
         "ownerId": ownerId,
         "brokerId": brokerId,
         "name": name,
+        "farmName": farmName,
         "latitude": latitude,
         "longitude": longitude,
         "sqmSize": sqmSize,

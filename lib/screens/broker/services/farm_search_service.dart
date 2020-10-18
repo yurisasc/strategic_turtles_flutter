@@ -10,15 +10,7 @@ class FarmSearchService with ChangeNotifier {
 
   Future<void> searchFarm(String uid, String query) async {
     if (query.length <= 1) {
-      final sentRequestId = await _db
-          .collection('/requests/')
-          .where('senderId', isEqualTo: uid)
-          .get()
-          .then((value) => value.docs
-              .map((e) => RequestModel.fromSnapshot(e).receiverId)
-              .toList());
-
-      final result = await _db
+      farmers.value = await _db
           .collection('/users/')
           .where('role', isEqualTo: Constants.Farmer)
           .orderBy('farmName')
@@ -28,9 +20,6 @@ class FarmSearchService with ChangeNotifier {
           .then((snapshot) =>
               snapshot.docs.map((e) => UserModel.fromMap(e.data())).toList());
 
-      farmers.value = result
-          .where((element) => !sentRequestId.contains(element.uid))
-          .toList();
       temp = farmers.value;
     } else {
       farmers.value =

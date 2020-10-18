@@ -37,6 +37,7 @@ class _AddPaddockDetailsScreenState extends State<AddPaddockDetailsScreen> {
             child: Container(
               width: 400,
               child: PaddockForm(
+                user: widget.user,
                 coordinate: widget.coordinate.position,
               ),
             ),

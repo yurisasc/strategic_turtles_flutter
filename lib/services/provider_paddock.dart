@@ -2,28 +2,40 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/utils/constants.dart';
+import 'package:tuple/tuple.dart';
 
 class PaddockProvider with ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Stream<List<PaddockModel>> getPaddocks(String firebaseUid, String role) {
+  Future<Map<String, List<PaddockModel>>> getPaddocks(
+      String firebaseUid, String role) async {
+    List<PaddockModel> paddocks;
     if (role == Constants.Farmer) {
-      return _db
+      paddocks = await _db
           .collection('/paddocks/')
           .where('ownerId', isEqualTo: firebaseUid)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map((e) => PaddockModel.fromSnapshot(e))
-              .toList());
+          .get()
+          .then((value) =>
+              value.docs.map((e) => PaddockModel.fromSnapshot(e)).toList());
     } else {
-      return _db
+      paddocks = await _db
           .collection('/paddocks/')
           .where('brokerId', isEqualTo: firebaseUid)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map((e) => PaddockModel.fromSnapshot(e))
-              .toList());
+          .get()
+          .then((value) =>
+              value.docs.map((e) => PaddockModel.fromSnapshot(e)).toList());
     }
+
+    Map<String, List<PaddockModel>> result = {};
+    for (PaddockModel paddock in paddocks) {
+      if (result.containsKey(paddock.ownerId)) {
+        result[paddock.ownerId] = [...result[paddock.ownerId], paddock];
+      } else {
+        result.putIfAbsent(paddock.ownerId, () => [paddock]);
+      }
+    }
+
+    return result;
   }
 
   Stream<List<PaddockModel>> getAllPaddocks() {
@@ -34,6 +46,7 @@ class PaddockProvider with ChangeNotifier {
   Future<bool> createPaddock(
     String ownerId,
     String name,
+    String farmName,
     double latitude,
     double longitude,
     double sqmSize,
@@ -45,6 +58,7 @@ class PaddockProvider with ChangeNotifier {
       ownerId: ownerId,
       brokerId: null,
       name: name,
+      farmName: farmName,
       latitude: latitude,
       longitude: longitude,
       sqmSize: sqmSize,

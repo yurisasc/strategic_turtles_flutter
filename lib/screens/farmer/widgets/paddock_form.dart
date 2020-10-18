@@ -3,14 +3,17 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:provider/provider.dart';
 import 'package:strategic_turtles/models/crops.dart';
+import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/services/services.dart';
 
 class PaddockForm extends StatefulWidget {
+  final UserModel user;
   final GeoCoord coordinate;
   final Function callback;
 
   const PaddockForm({
     Key key,
+    @required this.user,
     @required this.coordinate,
     @required this.callback,
   }) : super(key: key);
@@ -115,6 +118,7 @@ class _PaddockFormState extends State<PaddockForm> {
     await paddockService.createPaddock(
       authService.getUser.uid,
       _paddockName,
+      widget.user.farmName,
       widget.coordinate.latitude,
       widget.coordinate.longitude,
       double.parse(_paddockSqm),
