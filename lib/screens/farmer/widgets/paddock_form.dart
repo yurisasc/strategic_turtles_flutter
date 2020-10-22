@@ -29,8 +29,6 @@ class _PaddockFormState extends State<PaddockForm> {
   String _paddockName;
   String _cropName;
   String _paddockSqm;
-  String _numSeed;
-  DateTime _harvestDate;
 
   @override
   void initState() {

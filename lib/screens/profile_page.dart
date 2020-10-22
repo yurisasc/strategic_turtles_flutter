@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/services/provider_firebase_auth.dart';
 import 'package:strategic_turtles/utils/constants.dart';
-import 'package:strategic_turtles/utils/phone_builder_form.dart';
 
 class ProfilePage extends StatefulWidget {
   final userId;
@@ -175,7 +174,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     labelStyle: TextStyle(color: Colors.green)),
                               ),
                               SizedBox(height: 16.0),
-                              MyFormBuilderPhoneField(
+                              FormBuilderTextField(
+                                validators: [FormBuilderValidators.numeric()],
                                 readOnly: !_isEditing,
                                 initialValue: user.phoneNumber == ''
                                     ? 'Not set'
