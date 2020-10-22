@@ -33,7 +33,7 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
     super.initState();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    widthAnimation = Tween<double>(begin: maxWidth, end: minWidth)
+    widthAnimation = Tween<double>(begin: minWidth, end: maxWidth)
         .animate(_animationController);
   }
 
@@ -86,7 +86,7 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
                 });
               },
               child: AnimatedIcon(
-                icon: AnimatedIcons.close_menu,
+                icon: AnimatedIcons.menu_close,
                 progress: _animationController,
                 color: selectedColor,
               ),

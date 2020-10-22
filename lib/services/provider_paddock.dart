@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/utils/constants.dart';
-import 'package:tuple/tuple.dart';
 
 class PaddockProvider with ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;

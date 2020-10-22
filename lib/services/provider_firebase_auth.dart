@@ -18,9 +18,8 @@ class AuthProvider with ChangeNotifier {
     if (firebaseUser?.uid != null) {
       return _db
           .doc('/users/${firebaseUser.uid}')
-          .snapshots()
-          .map((snapshot) => UserModel.fromMap(snapshot.data()))
-          .first;
+          .get()
+          .then((value) => UserModel.fromMap(value.data()));
     }
     return null;
   }
@@ -78,5 +77,26 @@ class AuthProvider with ChangeNotifier {
   // Sign out
   Future<void> signOut() {
     return _auth.signOut();
+  }
+
+  Future<UserModel> getUserById(String id) {
+    return _db.collection('/users/').where('uid', isEqualTo: id).get().then(
+        (value) => value.docs.map((e) => UserModel.fromMap(e.data())).first);
+  }
+
+  void editProfile(
+    String uid,
+    String firstName,
+    String lastName,
+    String phoneNumber,
+    String address,
+  ) {
+    final data = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'phoneNumber': phoneNumber,
+      'address': address,
+    };
+    _db.collection('/users/').doc(uid).update(data);
   }
 }

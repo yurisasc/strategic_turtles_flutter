@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:strategic_turtles/models/crops.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/models/paddock_model.dart';
 import 'package:strategic_turtles/screens/widgets/widgets.dart';
 import 'package:strategic_turtles/services/provider_paddock.dart';
 import 'package:strategic_turtles/utils/constants.dart';
+
+import '../screens.dart';
 
 class PaddockList extends StatelessWidget {
   final UserModel user;
@@ -108,7 +109,16 @@ class GroupedPaddockItem extends StatelessWidget {
             ),
             FloatingActionButton.extended(
               heroTag: farmId,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(
+                      userId: farmId,
+                      role: Constants.Farmer,
+                    ),
+                  ),
+                );
+              },
               label: Text(
                 'View Profile',
                 style:
