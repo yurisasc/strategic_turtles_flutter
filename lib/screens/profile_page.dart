@@ -81,21 +81,24 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Stack(
                 children: [
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: IconButton(
-                      icon: !_isEditing ? Icon(Icons.edit) : Icon(Icons.check),
-                      color: Colors.lightGreen,
-                      onPressed: () {
-                        if (_isEditing) {
-                          _submitForm();
-                        } else {
-                          setState(() {
-                            _isEditing = true;
-                          });
-                        }
-                      },
+                  Visibility(
+                    visible: isCurrentUser,
+                    child: Positioned(
+                      right: 0,
+                      top: 0,
+                      child: IconButton(
+                        icon: !_isEditing ? Icon(Icons.edit) : Icon(Icons.check),
+                        color: Colors.lightGreen,
+                        onPressed: () {
+                          if (_isEditing) {
+                            _submitForm();
+                          } else {
+                            setState(() {
+                              _isEditing = true;
+                            });
+                          }
+                        },
+                      ),
                     ),
                   ),
                   Row(
