@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:strategic_turtles/models/models.dart';
-import 'package:strategic_turtles/screens/profile_page.dart';
+import 'package:strategic_turtles/screens/profile_screen.dart';
 import 'package:strategic_turtles/utils/constants.dart';
 
 class ProfileNavigation extends StatelessWidget {
@@ -19,7 +19,7 @@ class ProfileNavigation extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProfilePage(
+            builder: (context) => ProfileScreen(
               userId: user.uid,
               role: user.role,
             ),

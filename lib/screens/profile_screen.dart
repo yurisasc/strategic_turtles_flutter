@@ -6,21 +6,21 @@ import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/services/provider_firebase_auth.dart';
 import 'package:strategic_turtles/utils/constants.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   final userId;
   final String role;
 
-  const ProfilePage({
+  const ProfileScreen({
     Key key,
     this.userId,
     this.role,
   }) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileScreenState extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isEditing;
   String firstName;
