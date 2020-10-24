@@ -5,7 +5,6 @@ import 'package:strategic_turtles/screens/widgets/navigation_drawer/collapsing_n
 import 'package:strategic_turtles/screens/widgets/paddock_request/request_list.dart';
 
 import '../widgets/widgets.dart';
-import 'widgets/farmer_widgets.dart';
 
 class FarmerHomeScreen extends StatefulWidget {
   final UserModel user;

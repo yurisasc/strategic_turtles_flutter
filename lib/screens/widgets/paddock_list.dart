@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:strategic_turtles/models/crops.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/models/paddock_model.dart';
 import 'package:strategic_turtles/screens/widgets/widgets.dart';
 import 'package:strategic_turtles/services/provider_paddock.dart';
 import 'package:strategic_turtles/utils/constants.dart';
 
+import '../screens.dart';
+
 class PaddockList extends StatelessWidget {
   final UserModel user;
+  final ScrollController scrollController = ScrollController();
 
-  const PaddockList({
+  PaddockList({
     Key key,
     @required this.user,
   }) : super(key: key);
@@ -53,6 +55,7 @@ class PaddockList extends StatelessWidget {
   Widget _farmerPaddockList(Map<String, List<PaddockModel>> paddocks) {
     final items = paddocks.values.expand((i) => i).toList();
     return ListView.builder(
+      controller: scrollController,
       itemCount: items.length,
       itemBuilder: (context, idx) {
         return Padding(
@@ -66,6 +69,7 @@ class PaddockList extends StatelessWidget {
   Widget _brokerPaddockList(Map<String, List<PaddockModel>> paddocks) {
     final entry = paddocks.entries.toList();
     return ListView.builder(
+      controller: scrollController,
       itemCount: entry.length,
       itemBuilder: (context, idx) {
         final farmName = entry[idx].value.first.farmName;
@@ -86,12 +90,14 @@ class GroupedPaddockItem extends StatelessWidget {
   final String farmId;
   final String farmName;
   final List<PaddockModel> paddocks;
+  final ScrollController scrollController;
 
   const GroupedPaddockItem({
     Key key,
     @required this.farmId,
     @required this.farmName,
     @required this.paddocks,
+    @required this.scrollController,
   }) : super(key: key);
 
   @override
@@ -108,7 +114,16 @@ class GroupedPaddockItem extends StatelessWidget {
             ),
             FloatingActionButton.extended(
               heroTag: farmId,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(
+                      userId: farmId,
+                      role: Constants.Farmer,
+                    ),
+                  ),
+                );
+              },
               label: Text(
                 'View Profile',
                 style:
@@ -121,6 +136,8 @@ class GroupedPaddockItem extends StatelessWidget {
         Flexible(
           fit: FlexFit.loose,
           child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: scrollController,
             shrinkWrap: true,
             itemCount: paddocks.length,
             itemBuilder: (context, idx) {

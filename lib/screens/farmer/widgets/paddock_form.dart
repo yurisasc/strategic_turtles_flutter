@@ -29,8 +29,6 @@ class _PaddockFormState extends State<PaddockForm> {
   String _paddockName;
   String _cropName;
   String _paddockSqm;
-  String _numSeed;
-  DateTime _harvestDate;
 
   @override
   void initState() {
@@ -81,7 +79,7 @@ class _PaddockFormState extends State<PaddockForm> {
           FormBuilderTextField(
             decoration: const InputDecoration(
               filled: true,
-              labelText: 'Paddock Size (m²)',
+              labelText: 'Paddock Size (ha)',
             ),
             validators: [
               FormBuilderValidators.required(),
@@ -123,7 +121,7 @@ class _PaddockFormState extends State<PaddockForm> {
       widget.coordinate.longitude,
       double.parse(_paddockSqm),
       _cropName,
-      DateTime.now(),
+      DateTime.now().add(Duration(days: 366)),
       0,
     );
     widget.callback.call();

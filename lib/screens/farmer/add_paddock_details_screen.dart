@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_google_maps/src/core/map_items.dart';
+import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/screens/widgets/app_bar.dart';
 
