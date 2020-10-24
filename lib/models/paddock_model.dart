@@ -12,7 +12,7 @@ class PaddockModel {
   String cropName;
   DateTime harvestDate;
   int numSeed;
-  double estimatedYield;
+  List<double> estimatedYield;
   double potentialProfit;
 
   PaddockModel({
@@ -47,13 +47,12 @@ class PaddockModel {
       cropName: data['cropName'],
       harvestDate: DateTime.parse(data['harvestDate']).toLocal(),
       numSeed: data['numSeed'],
-      estimatedYield: data['estimatedYield'],
+      estimatedYield: List.from(data['estimatedYield'] ?? []),
       potentialProfit: data['potentialProfit'],
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "ownerId": ownerId,
         "brokerId": brokerId,

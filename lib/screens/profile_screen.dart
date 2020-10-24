@@ -87,7 +87,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       right: 0,
                       top: 0,
                       child: IconButton(
-                        icon: !_isEditing ? Icon(Icons.edit) : Icon(Icons.check),
+                        icon:
+                            !_isEditing ? Icon(Icons.edit) : Icon(Icons.check),
                         color: Colors.lightGreen,
                         onPressed: () {
                           if (_isEditing) {
@@ -138,6 +139,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fit: FlexFit.loose,
                                     child: FormBuilderTextField(
                                       readOnly: !_isEditing,
+                                      validators: [
+                                        FormBuilderValidators.required()
+                                      ],
                                       initialValue: user.firstName,
                                       decoration: const InputDecoration(
                                           filled: true,
@@ -154,6 +158,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fit: FlexFit.loose,
                                     child: FormBuilderTextField(
                                       readOnly: !_isEditing,
+                                      validators: [
+                                        FormBuilderValidators.required()
+                                      ],
                                       initialValue: user.lastName,
                                       decoration: const InputDecoration(
                                           filled: true,
