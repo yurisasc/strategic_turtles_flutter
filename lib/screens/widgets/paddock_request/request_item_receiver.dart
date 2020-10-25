@@ -48,6 +48,7 @@ class _RequestItemReceiverState extends State<RequestItemReceiver> {
               'Status: ${widget.request.status}',
               style: TextStyle(fontSize: 18),
             ),
+            SizedBox(height: 8.0),
             status == Constants.Pending
                 ? Align(
                     alignment: Alignment.centerRight,
@@ -58,7 +59,7 @@ class _RequestItemReceiverState extends State<RequestItemReceiver> {
                             _showPaddockSearchDialog();
                           },
                           elevation: 4.0,
-                          color: Colors.green,
+                          color: Colors.lightGreen,
                           child: Container(
                             child: Text('Accept'),
                             decoration: BoxDecoration(
@@ -66,12 +67,13 @@ class _RequestItemReceiverState extends State<RequestItemReceiver> {
                             ),
                           ),
                         ),
+                        SizedBox(width: 8.0),
                         RaisedButton(
                           onPressed: () {
                             _declineRequest();
                           },
                           elevation: 4.0,
-                          color: Colors.red,
+                          color: Colors.red[300],
                           child: Container(
                             child: Text('Decline'),
                             decoration: BoxDecoration(
