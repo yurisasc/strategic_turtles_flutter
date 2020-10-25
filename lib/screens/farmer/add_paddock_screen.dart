@@ -100,7 +100,7 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
         markers: {},
         initialZoom: 12,
         initialPosition: GeoCoord(loc.latitude, loc.longitude),
-        mapType: MapType.roadmap,
+        mapType: MapType.hybrid,
         interactive: true,
         onTap: (coordinate) {
           _updateMarker(coordinate);

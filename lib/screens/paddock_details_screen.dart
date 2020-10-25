@@ -126,7 +126,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
         markers: {Marker(position)},
         initialZoom: 12,
         initialPosition: position,
-        mapType: MapType.roadmap,
+        mapType: MapType.hybrid,
         interactive: false,
       ),
     );
