@@ -50,14 +50,14 @@ class _PaddockFormState extends State<PaddockForm> {
       child: Column(
         children: [
           Text(
-            'Paddock Details',
+            'Field Details',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),
           FormBuilderTextField(
             decoration: const InputDecoration(
               filled: true,
-              labelText: 'Paddock name',
+              labelText: 'Field name',
             ),
             validators: [FormBuilderValidators.required()],
             onSaved: (value) {
@@ -81,7 +81,7 @@ class _PaddockFormState extends State<PaddockForm> {
           FormBuilderTextField(
             decoration: const InputDecoration(
               filled: true,
-              labelText: 'Paddock Size (ha)',
+              labelText: 'Field Size (ha)',
             ),
             validators: [
               FormBuilderValidators.required(),
@@ -95,7 +95,7 @@ class _PaddockFormState extends State<PaddockForm> {
           Visibility(
             visible: _submitted && widget.coordinate == null,
             child: Text(
-              'Please select your paddock location on the map',
+              'Please select your field location on the map',
               style: TextStyle(color: Colors.red),
             ),
           ),

@@ -65,7 +65,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Theme.of(context).accentColor,
         title: Text(
-          'Paddock Details',
+          'Field Details',
           style: TextStyle(
             color: Colors.white,
           ),
@@ -145,7 +145,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
               validators: [FormBuilderValidators.required()],
               decoration: const InputDecoration(
                   filled: true,
-                  labelText: 'Paddock Name',
+                  labelText: 'Field Name',
                   labelStyle: TextStyle(
                     color: Colors.green,
                     fontSize: 23,
@@ -180,7 +180,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
               initialValue: widget.paddock.sqmSize.toString(),
               decoration: const InputDecoration(
                   filled: true,
-                  labelText: 'Paddock Size (ha)',
+                  labelText: 'Field Size (ha)',
                   labelStyle: TextStyle(
                     color: Colors.green,
                     fontSize: 23,
@@ -199,7 +199,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
               controller: _yieldController,
               decoration: const InputDecoration(
                   filled: true,
-                  labelText: 'Yield Estimation',
+                  labelText: 'Yield Estimation (ha)',
                   labelStyle: TextStyle(
                     color: Colors.green,
                     fontSize: 23,

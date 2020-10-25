@@ -23,7 +23,7 @@ class RequestItemSender extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Paddock name: ${request.receiverFarmName}',
+              'Field name: ${request.receiverFarmName}',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),

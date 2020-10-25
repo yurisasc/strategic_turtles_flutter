@@ -32,7 +32,7 @@ class _BrokerHomeScreenState extends State<BrokerHomeScreen> {
           CollapsingNavigationDrawer(
             navigationItems: [
               NavigationModel(
-                title: 'Paddock List',
+                title: 'Field List',
                 icon: Icons.list,
                 onTap: () {
                   setState(() {

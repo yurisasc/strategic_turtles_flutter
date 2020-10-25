@@ -30,7 +30,7 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(user: widget.user, title: 'Add Paddock'),
+      appBar: MyAppBar(user: widget.user, title: 'Add Field'),
       body: Consumer<UserLocation>(
         builder: (context, loc, child) {
           return Row(
@@ -78,7 +78,7 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(6.0),
                           child: Text(
-                              'Place a marker in the centre of your paddock'),
+                              'Place a marker in the centre of your field'),
                           decoration: const BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(6.0)),

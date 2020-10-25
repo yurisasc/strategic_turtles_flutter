@@ -29,7 +29,7 @@ class _AddPaddockDetailsScreenState extends State<AddPaddockDetailsScreen> {
       backgroundColor: const Color(0xFF585858),
       appBar: MyAppBar(
         user: widget.user,
-        title: 'Insert Paddock Details',
+        title: 'Insert Field Details',
       ),
       body: Stack(
         children: [
