@@ -112,7 +112,7 @@ class _PaddockFormState extends State<PaddockForm> {
                 });
               },
               child: Text(
-                'ADD PADDOCK',
+                'ADD FIELD',
                 style: TextStyle(color: Colors.white),
               ),
               color: Theme.of(context).accentColor,
