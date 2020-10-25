@@ -43,7 +43,7 @@ class PaddockList extends StatelessWidget {
         } else {
           return Center(
             child: Text(
-              'No paddocks',
+              'No fields',
               style: TextStyle(color: Colors.white),
             ),
           );

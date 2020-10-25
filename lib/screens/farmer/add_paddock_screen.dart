@@ -30,7 +30,7 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(user: widget.user, title: 'Add Paddock'),
+      appBar: MyAppBar(user: widget.user, title: 'Add Field'),
       body: Consumer<UserLocation>(
         builder: (context, loc, child) {
           return Row(
@@ -66,10 +66,27 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
               ),
               Expanded(
                 child: Stack(
+                  alignment: Alignment.topCenter,
                   children: <Widget>[
                     loc == null
                         ? Center(child: Text('Please enable location service'))
                         : _googleMap(loc),
+                    Positioned(
+                      top: 16,
+                      child: Visibility(
+                        visible: _selectedLocation == null,
+                        child: Container(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                              'Place a marker in the centre of your field'),
+                          decoration: const BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(6.0)),
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                     Positioned(
                       bottom: 16,
                       right: 16,
@@ -100,7 +117,7 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
         markers: {},
         initialZoom: 12,
         initialPosition: GeoCoord(loc.latitude, loc.longitude),
-        mapType: MapType.roadmap,
+        mapType: MapType.hybrid,
         interactive: true,
         onTap: (coordinate) {
           _updateMarker(coordinate);

@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
 
           final user = stream.data;
           return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'CropStat',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.lightGreen,

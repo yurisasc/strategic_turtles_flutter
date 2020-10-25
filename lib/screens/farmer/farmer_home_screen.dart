@@ -32,7 +32,7 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
                 CollapsingNavigationDrawer(
                   navigationItems: [
                     NavigationModel(
-                      title: 'Paddock List',
+                      title: 'Field List',
                       icon: Icons.list,
                       onTap: () {
                         setState(() {
@@ -69,7 +69,7 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
               onPressed: () {
                 _createPaddock();
               },
-              label: Text('Add paddock '),
+              label: Text('Add field '),
               icon: Icon(Icons.add),
             ),
           );

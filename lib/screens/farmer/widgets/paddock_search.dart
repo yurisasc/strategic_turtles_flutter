@@ -43,7 +43,7 @@ class _PaddockSearchState extends State<PaddockSearch> {
         Provider.of<RequestsProvider>(context, listen: false);
 
     return AlertDialog(
-      title: Text('Assign a Paddock'),
+      title: Text('Assign a Field'),
       content: SingleChildScrollView(
         child: ListBody(
           children: [
@@ -56,7 +56,7 @@ class _PaddockSearchState extends State<PaddockSearch> {
                 decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     contentPadding: EdgeInsets.only(left: 25.0),
-                    hintText: 'Search by paddock name',
+                    hintText: 'Search by field name',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0),
                     )),
