@@ -66,10 +66,27 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
               ),
               Expanded(
                 child: Stack(
+                  alignment: Alignment.topCenter,
                   children: <Widget>[
                     loc == null
                         ? Center(child: Text('Please enable location service'))
                         : _googleMap(loc),
+                    Positioned(
+                      top: 16,
+                      child: Visibility(
+                        visible: _selectedLocation == null,
+                        child: Container(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                              'Place a marker in the centre of your paddock'),
+                          decoration: const BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(6.0)),
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                     Positioned(
                       bottom: 16,
                       right: 16,

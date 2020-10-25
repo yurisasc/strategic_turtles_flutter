@@ -30,6 +30,8 @@ class _PaddockFormState extends State<PaddockForm> {
   String _cropName;
   String _paddockSqm;
 
+  bool _submitted = false;
+
   @override
   void initState() {
     super.initState();
@@ -90,6 +92,14 @@ class _PaddockFormState extends State<PaddockForm> {
             },
           ),
           SizedBox(height: 8.0),
+          Visibility(
+            visible: _submitted && widget.coordinate == null,
+            child: Text(
+              'Please select your paddock location on the map',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+          SizedBox(height: 8.0),
           Container(
             width: double.infinity,
             child: RaisedButton(
@@ -97,6 +107,9 @@ class _PaddockFormState extends State<PaddockForm> {
                 if (_formKey.currentState.saveAndValidate()) {
                   _submit();
                 }
+                setState(() {
+                  _submitted = true;
+                });
               },
               child: Text(
                 'ADD PADDOCK',
@@ -113,17 +126,19 @@ class _PaddockFormState extends State<PaddockForm> {
   void _submit() async {
     final authService = Provider.of<AuthProvider>(context, listen: false);
     final paddockService = Provider.of<PaddockProvider>(context, listen: false);
-    await paddockService.createPaddock(
-      authService.getUser.uid,
-      _paddockName,
-      widget.user.farmName,
-      widget.coordinate.latitude,
-      widget.coordinate.longitude,
-      double.parse(_paddockSqm),
-      _cropName,
-      DateTime.now().add(Duration(days: 366)),
-      0,
-    );
-    widget.callback.call();
+    if (widget.coordinate != null) {
+      await paddockService.createPaddock(
+        authService.getUser.uid,
+        _paddockName,
+        widget.user.farmName,
+        widget.coordinate.latitude,
+        widget.coordinate.longitude,
+        double.parse(_paddockSqm),
+        _cropName,
+        DateTime.now().add(Duration(days: 366)),
+        0,
+      );
+      widget.callback.call();
+    }
   }
 }
