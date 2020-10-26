@@ -29,6 +29,7 @@ class _PaddockFormState extends State<PaddockForm> {
   String _paddockName;
   String _cropName;
   String _paddockSqm;
+  bool _runPrediction;
 
   bool _submitted = false;
 
@@ -41,6 +42,14 @@ class _PaddockFormState extends State<PaddockForm> {
             value: crop,
           ));
     });
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    final paddockProvider = Provider.of<PaddockProvider>(context);
+    paddockProvider.loading = false;
+    paddockProvider.errorMessage = null;
   }
 
   @override
@@ -81,7 +90,7 @@ class _PaddockFormState extends State<PaddockForm> {
           FormBuilderTextField(
             decoration: const InputDecoration(
               filled: true,
-              labelText: 'Field Size (ha)',
+              labelText: 'Field Size (Ha)',
             ),
             validators: [
               FormBuilderValidators.required(),
@@ -89,6 +98,16 @@ class _PaddockFormState extends State<PaddockForm> {
             ],
             onSaved: (value) {
               _paddockSqm = value;
+            },
+          ),
+          SizedBox(height: 8.0),
+          FormBuilderCheckbox(
+            label: Text('Run prediction on creating field'),
+            decoration: InputDecoration(
+              labelStyle: TextStyle(color: Colors.lightGreen),
+            ),
+            onSaved: (value) {
+              _runPrediction = value;
             },
           ),
           SizedBox(height: 8.0),
@@ -100,10 +119,22 @@ class _PaddockFormState extends State<PaddockForm> {
             ),
           ),
           SizedBox(height: 8.0),
-          Container(
-            width: double.infinity,
-            child: RaisedButton(
-              onPressed: () {
+          _predictionErrorMessage(),
+          SizedBox(height: 8.0),
+          _submitButton(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _submitButton(BuildContext context) {
+    final paddockProvider = Provider.of<PaddockProvider>(context);
+    return Container(
+      width: double.infinity,
+      child: RaisedButton(
+        onPressed: paddockProvider.loading
+            ? null
+            : () {
                 if (_formKey.currentState.saveAndValidate()) {
                   _submit();
                 }
@@ -111,23 +142,46 @@ class _PaddockFormState extends State<PaddockForm> {
                   _submitted = true;
                 });
               },
-              child: Text(
+        child: paddockProvider.loading
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 16,
+                    height: 16,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    'Creating farm ...',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              )
+            : Text(
                 'ADD FIELD',
                 style: TextStyle(color: Colors.white),
               ),
-              color: Theme.of(context).accentColor,
-            ),
-          ),
-        ],
+        color: Theme.of(context).accentColor,
       ),
     );
+  }
+
+  Widget _predictionErrorMessage() {
+    final paddockService = Provider.of<PaddockProvider>(context);
+    return paddockService.errorMessage != null
+        ? Text(
+            'Failed to create farm (${paddockService.errorMessage}), please try again.',
+            style: TextStyle(color: Colors.red),
+          )
+        : SizedBox.shrink();
   }
 
   void _submit() async {
     final authService = Provider.of<AuthProvider>(context, listen: false);
     final paddockService = Provider.of<PaddockProvider>(context, listen: false);
     if (widget.coordinate != null) {
-      await paddockService.createPaddock(
+      final result = await paddockService.createPaddock(
         authService.getUser.uid,
         _paddockName,
         widget.user.farmName,
@@ -138,8 +192,9 @@ class _PaddockFormState extends State<PaddockForm> {
         DateTime.now(),
         DateTime.now().add(Duration(days: 366)),
         0,
+        runPrediction: _runPrediction,
       );
-      widget.callback.call();
+      if (result) widget.callback.call();
     }
   }
 }

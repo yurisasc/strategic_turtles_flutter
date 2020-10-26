@@ -51,6 +51,14 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
   }
 
   @override
+  void deactivate() {
+    super.deactivate();
+    final paddockProvider = Provider.of<PaddockProvider>(context);
+    paddockProvider.loading = false;
+    paddockProvider.errorMessage = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthProvider>(context, listen: false);
     final isOwner = authService.getUser.uid == widget.paddock.ownerId;
@@ -217,7 +225,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
               controller: _yieldController,
               decoration: const InputDecoration(
                   filled: true,
-                  labelText: 'Yield Estimation (Kg/Ha)',
+                  labelText: 'Yield Estimation (Kg)',
                   labelStyle: TextStyle(
                     color: Colors.green,
                     fontSize: 23,
@@ -244,6 +252,8 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
                     ),
                   )
                 : SizedBox.shrink(),
+            _predictionErrorMessage(),
+            SizedBox(height: 8.0),
             isOwner
                 ? Container(
                     width: double.infinity,
@@ -293,6 +303,16 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
       });
       _yieldController.text = estimatedYield[0].toString();
     }
+  }
+
+  Widget _predictionErrorMessage() {
+    final paddockService = Provider.of<PaddockProvider>(context);
+    return paddockService.errorMessage != null
+        ? Text(
+            'Prediction error (${paddockService.errorMessage}), please try again.',
+            style: TextStyle(color: Colors.red),
+          )
+        : SizedBox.shrink();
   }
 
   void _submitForm() async {

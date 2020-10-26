@@ -3,7 +3,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 class PredictionChart extends StatelessWidget {
   final List<double> predictions;
-  final String domain = 'Yield (Kg/Ha)';
+  final String domain = 'Yield (Kg)';
 
   const PredictionChart({
     Key key,
