@@ -166,10 +166,14 @@ class PaddockProvider with ChangeNotifier {
   }
 
   List<double> _getPredictionValue(PredictionResponse predictionResponse) {
-    if (predictionResponse.result != null) {
+    final result = predictionResponse.result;
+
+    if (result != null) {
+      final pad = result * 0.25;
       final paddedResult = [
-        predictionResponse.result,
-        2 * predictionResponse.result,
+        result,
+        result-pad,
+        2 * pad,
       ];
       return paddedResult;
     } else {

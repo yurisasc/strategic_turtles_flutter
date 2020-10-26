@@ -153,7 +153,7 @@ class _PaddockFormState extends State<PaddockForm> {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    'Creating farm ...',
+                    'Creating field ...',
                     style: TextStyle(color: Colors.white),
                   )
                 ],

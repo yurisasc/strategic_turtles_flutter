@@ -9,7 +9,7 @@ class PredictionChart extends StatelessWidget {
     Key key,
     @required this.predictions,
   })  : assert(predictions != null),
-        assert(predictions.length == 2),
+        assert(predictions.length == 3),
         super(key: key);
 
   List<charts.Series<double, String>> _convertData(List<double> prediction) {
@@ -19,6 +19,21 @@ class PredictionChart extends StatelessWidget {
         data: [predictions[1]],
         domainFn: (value, _) => domain,
         measureFn: (value, _) => value,
+        colorFn: (_, __) => charts.MaterialPalette.transparent,
+      ),
+      new charts.Series(
+        id: 'value',
+        data: [predictions[2]],
+        domainFn: (value, _) => domain,
+        measureFn: (value, _) => value,
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+      ),
+      new charts.Series(
+        id: 'value',
+        data: [predictions[1]],
+        domainFn: (value, _) => domain,
+        measureFn: (value, _) => value,
+        colorFn: (_, __) => charts.MaterialPalette.transparent,
       ),
       new charts.Series(
         id: 'value line',
