@@ -317,6 +317,10 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
 
   void _submitForm() async {
     if (_formKey.currentState.saveAndValidate()) {
+      setState(() {
+        _isEditing = false;
+      });
+
       final paddockService =
           Provider.of<PaddockProvider>(context, listen: false);
 
@@ -333,7 +337,6 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
       if (result != null) {
         setState(() {
           estimatedYield = result.estimatedYield;
-          _isEditing = false;
         });
         _yieldController.text = estimatedYield[0].toString();
       }
