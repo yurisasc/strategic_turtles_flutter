@@ -73,19 +73,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
       ),
       floatingActionButton: Visibility(
         visible: isOwner,
-        child: FloatingActionButton.extended(
-          icon: !_isEditing ? Icon(Icons.edit) : Icon(Icons.check),
-          label: !_isEditing ? Text('Edit') : Text('Save'),
-          onPressed: () {
-            if (_isEditing) {
-              _submitForm();
-            } else {
-              setState(() {
-                _isEditing = true;
-              });
-            }
-          },
-        ),
+        child: floatingActionButtonEdit(),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -119,7 +107,35 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
     );
   }
 
-  Expanded _paddockMapPosition(GeoCoord position) {
+  Widget floatingActionButtonEdit() {
+    final paddockProvider = Provider.of<PaddockProvider>(context);
+
+    return FloatingActionButton.extended(
+      icon: paddockProvider.loading
+          ? null
+          : !_isEditing
+              ? Icon(Icons.edit)
+              : Icon(Icons.check),
+      label: paddockProvider.loading
+          ? Text('Predicting ...')
+          : !_isEditing
+              ? Text('Edit')
+              : Text('Save'),
+      onPressed: paddockProvider.loading
+          ? null
+          : () {
+              if (_isEditing) {
+                _submitForm();
+              } else {
+                setState(() {
+                  _isEditing = true;
+                });
+              }
+            },
+    );
+  }
+
+  Widget _paddockMapPosition(GeoCoord position) {
     return Expanded(
       child: GoogleMap(
         key: _mapKey,
@@ -132,7 +148,9 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
     );
   }
 
-  Expanded _paddockDetailsForm(bool isOwner) {
+  Widget _paddockDetailsForm(bool isOwner) {
+    final paddockProvider = Provider.of<PaddockProvider>(context);
+
     return Expanded(
       child: FormBuilder(
         key: _formKey,
@@ -180,7 +198,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
               initialValue: widget.paddock.sqmSize.toString(),
               decoration: const InputDecoration(
                   filled: true,
-                  labelText: 'Field Size (ha)',
+                  labelText: 'Field Size (Ha)',
                   labelStyle: TextStyle(
                     color: Colors.green,
                     fontSize: 23,
@@ -199,7 +217,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
               controller: _yieldController,
               decoration: const InputDecoration(
                   filled: true,
-                  labelText: 'Yield Estimation (ha)',
+                  labelText: 'Yield Estimation (Kg/Ha)',
                   labelStyle: TextStyle(
                     color: Colors.green,
                     fontSize: 23,
@@ -230,11 +248,28 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
                 ? Container(
                     width: double.infinity,
                     child: RaisedButton(
-                      onPressed: _predict,
-                      child: Text(
-                        'PREDICT',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      onPressed: paddockProvider.loading ? null : _predict,
+                      child: paddockProvider.loading
+                          ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  child: CircularProgressIndicator(),
+                                  width: 16,
+                                  height: 16,
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Predicting ...',
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              ],
+                            )
+                          : Text(
+                              'PREDICT',
+                              style: TextStyle(color: Colors.white),
+                            ),
                       color: Theme.of(context).accentColor,
                     ),
                   )

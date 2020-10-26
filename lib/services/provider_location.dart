@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+/// A model class of the user location
 class UserLocation {
   final double latitude;
   final double longitude;
@@ -12,6 +13,9 @@ class UserLocation {
   LatLng toLatLng() => LatLng(this.latitude, this.longitude);
 }
 
+/// Service to keep track of the user location.
+/// This will only be used when the user wants to open a map
+/// which will set the user location as the initial position
 class LocationProvider {
   UserLocation _currentlocation;
   StreamController<UserLocation> _locationController =
@@ -19,6 +23,8 @@ class LocationProvider {
   Stream<UserLocation> get locationStream => _locationController.stream;
   var location = Location();
 
+  /// Initialize a stream that can be listened by widgets
+  /// to provide user location. Will request the user permission beforehand.
   LocationProvider() {
     // Request permission to use location
     location.requestPermission().then((granted) => {
@@ -36,6 +42,7 @@ class LocationProvider {
     });
   }
 
+  /// Get the user location
   Future<UserLocation> getLocation() async {
     try {
       var userLocation = await location.getLocation();

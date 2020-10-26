@@ -10,6 +10,7 @@ class PaddockModel {
   double longitude;
   double sqmSize;
   String cropName;
+  DateTime createdDate;
   DateTime harvestDate;
   int numSeed;
   List<double> estimatedYield;
@@ -25,6 +26,7 @@ class PaddockModel {
     this.longitude,
     this.sqmSize,
     this.cropName,
+    this.createdDate,
     this.harvestDate,
     this.numSeed,
     this.estimatedYield,
@@ -45,6 +47,7 @@ class PaddockModel {
       longitude: data['longitude'],
       sqmSize: data['sqmSize'],
       cropName: data['cropName'],
+      createdDate: DateTime.parse(data['createdDate']).toLocal(),
       harvestDate: DateTime.parse(data['harvestDate']).toLocal(),
       numSeed: data['numSeed'],
       estimatedYield: List.from(data['estimatedYield'] ?? []),
@@ -62,6 +65,7 @@ class PaddockModel {
         "longitude": longitude,
         "sqmSize": sqmSize,
         "cropName": cropName,
+        "createdDate": createdDate.toUtc().toString(),
         "harvestDate": harvestDate.toUtc().toString(),
         "numSeed": numSeed,
         "estimatedYield": estimatedYield,

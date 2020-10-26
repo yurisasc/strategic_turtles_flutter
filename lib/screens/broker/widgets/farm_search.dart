@@ -4,6 +4,8 @@ import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/screens/broker/services/farm_search_service.dart';
 import 'package:strategic_turtles/services/provider_requests.dart';
 
+/// Widget to search for a farm.
+/// Used by the broker to send a request to the selected farm.
 class FarmSearch extends StatefulWidget {
   final UserModel user;
 
@@ -101,6 +103,7 @@ class _FarmSearchState extends State<FarmSearch> {
   }
 }
 
+/// A widget to represent the queried farm
 class FarmItem extends StatelessWidget {
   final Function(UserModel) onSelected;
   final bool selected;

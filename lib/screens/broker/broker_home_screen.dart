@@ -75,6 +75,7 @@ class _BrokerHomeScreenState extends State<BrokerHomeScreen> {
     );
   }
 
+  /// Show a dialog to search for a farm
   Future<void> _showFarmSearchDialog() async {
     return showDialog<void>(
       context: context,

@@ -32,81 +32,82 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
     return Scaffold(
       appBar: MyAppBar(user: widget.user, title: 'Add Field'),
       body: Consumer<UserLocation>(
-        builder: (context, loc, child) {
-          return Row(
-            children: [
-              Container(
-                width: 450,
-                child: Stack(
+              builder: (context, loc, child) {
+                return Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: PaddockForm(
-                        user: widget.user,
-                        coordinate: _selectedLocation?.position,
-                        callback: widget.callback.call,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 16,
-                      left: 16,
-                      child: FloatingActionButton.extended(
-                        heroTag: 'back',
-                        icon: Icon(Icons.arrow_back),
-                        label: Text('Go Back'),
-                        onPressed: () {
-                          if (widget.callback != null) {
-                            widget.callback.call();
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: <Widget>[
-                    loc == null
-                        ? Center(child: Text('Please enable location service'))
-                        : _googleMap(loc),
-                    Positioned(
-                      top: 16,
-                      child: Visibility(
-                        visible: _selectedLocation == null,
-                        child: Container(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Text(
-                              'Place a marker in the centre of your field'),
-                          decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(6.0)),
-                            color: Colors.white,
+                    Container(
+                      width: 450,
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: PaddockForm(
+                              user: widget.user,
+                              coordinate: _selectedLocation?.position,
+                              callback: widget.callback.call,
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            bottom: 16,
+                            left: 16,
+                            child: FloatingActionButton.extended(
+                              heroTag: 'back',
+                              icon: Icon(Icons.arrow_back),
+                              label: Text('Go Back'),
+                              onPressed: () {
+                                if (widget.callback != null) {
+                                  widget.callback.call();
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      bottom: 16,
-                      right: 16,
-                      child: FloatingActionButton(
-                        heroTag: 'current location',
-                        child: Icon(Icons.my_location),
-                        onPressed: loc == null
-                            ? null
-                            : () {
-                                _selectCurrentLocation(loc);
-                              },
+                    Expanded(
+                      child: Stack(
+                        alignment: Alignment.topCenter,
+                        children: <Widget>[
+                          loc == null
+                              ? Center(
+                                  child: Text('Please enable location service'))
+                              : _googleMap(loc),
+                          Positioned(
+                            top: 16,
+                            child: Visibility(
+                              visible: _selectedLocation == null,
+                              child: Container(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Text(
+                                    'Place a marker in the centre of your field'),
+                                decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6.0)),
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 16,
+                            right: 16,
+                            child: FloatingActionButton(
+                              heroTag: 'current location',
+                              child: Icon(Icons.my_location),
+                              onPressed: loc == null
+                                  ? null
+                                  : () {
+                                      _selectCurrentLocation(loc);
+                                    },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+                );
+              },
+            ),
     );
   }
 

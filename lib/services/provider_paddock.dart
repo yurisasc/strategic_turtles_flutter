@@ -3,13 +3,22 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:strategic_turtles/models/models.dart';
+import 'package:strategic_turtles/services/api_service_identifiers.dart';
 import 'package:strategic_turtles/utils/constants.dart';
 
+/// Service to handle any operation related to
+/// paddock creation, querying and editing
 class PaddockProvider with ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  bool loading = false;
 
+  /// Get the paddock related to the user.
+  /// If the user is a farmer, then get the created paddocks.
+  /// If the user is a broker, then get the accepted paddocks.
   Future<Map<String, List<PaddockModel>>> getPaddocks(
-      String firebaseUid, String role) async {
+    String firebaseUid,
+    String role,
+  ) async {
     List<PaddockModel> paddocks;
     if (role == Constants.Farmer) {
       paddocks = await _db
@@ -44,6 +53,7 @@ class PaddockProvider with ChangeNotifier {
         snapshot.docs.map((e) => PaddockModel.fromSnapshot(e)).toList());
   }
 
+  /// Create a paddock
   Future<bool> createPaddock(
     String ownerId,
     String name,
@@ -52,6 +62,7 @@ class PaddockProvider with ChangeNotifier {
     double longitude,
     double sqmSize,
     String cropName,
+    DateTime createdDate,
     DateTime harvestDate,
     int numSeed,
   ) async {
@@ -64,13 +75,14 @@ class PaddockProvider with ChangeNotifier {
       longitude: longitude,
       sqmSize: sqmSize,
       cropName: cropName,
+      createdDate: createdDate,
       harvestDate: harvestDate,
       numSeed: numSeed,
       estimatedYield: null,
       potentialProfit: null,
     );
     try {
-      final prediction = await getPrediction(paddock, true);
+      final prediction = await getPrediction(paddock);
       paddock.estimatedYield = prediction;
       await _db.collection('/paddocks/').add(paddock.toJson());
       return true;
@@ -79,6 +91,9 @@ class PaddockProvider with ChangeNotifier {
     }
   }
 
+  /// Edit the editable attributes of the paddock.
+  /// param: paddock is the [PaddockModel] representing the edited paddock
+  /// param: rePredict is to decide whether to rerun prediction or not.
   Future<PaddockModel> editPaddock(
     PaddockModel paddock,
     bool rePredict,
@@ -89,9 +104,9 @@ class PaddockProvider with ChangeNotifier {
       'sqmSize': paddock.sqmSize,
     };
 
-    // Re-run the prediction if sqmSize changed;
+    // Re-run the prediction
     if (rePredict) {
-      final result = await getPrediction(paddock, false);
+      final result = await getPrediction(paddock);
       data['estimatedYield'] = result;
       paddock.estimatedYield = result;
     }
@@ -104,27 +119,29 @@ class PaddockProvider with ChangeNotifier {
     }
   }
 
-  Future<List<double>> getPrediction(PaddockModel paddock, bool isNewPaddock) {
+  /// Run a prediction for the paddock.
+  Future<List<double>> getPrediction(PaddockModel paddock) async {
     Map<String, dynamic> params = {
       "cropType": paddock.cropName,
-      "sqmSize": paddock.sqmSize,
+      "paddockArea": paddock.sqmSize,
+      "startDate": paddock.createdDate,
+      "endDate": paddock.harvestDate,
       "longitude": paddock.longitude,
       "latitude": paddock.latitude,
     };
 
-    if (isNewPaddock) {
-      params["startDate"] = DateTime.now();
-      params["endDate"] = DateTime.now().add(Duration(days: 366));
-    }
+    loading = true;
+    notifyListeners();
 
-    // Will be replaced by a real value once the API is ready
-    final random = Random();
-    double randomDouble = random.nextDouble();
+    double predictedYield = await ApiService().predict(params);
 
     final paddedResult = [
-      randomDouble,
-      2 * (randomDouble),
+      predictedYield,
+      2 * (predictedYield),
     ];
+
+    loading = false;
+    notifyListeners();
 
     return Future<List<double>>.value(paddedResult);
   }

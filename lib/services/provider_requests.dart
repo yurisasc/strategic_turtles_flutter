@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/utils/constants.dart';
 
+/// Request service that handles any operations
+/// related to creating, accepting and rejecting requests.
 class RequestsProvider with ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  /// Get all the request sent by the user id
   Stream<List<RequestModel>> getSentRequests(String firebaseUid) {
     return _db
         .collection('/requests/')
@@ -15,6 +18,7 @@ class RequestsProvider with ChangeNotifier {
             snapshot.docs.map((e) => RequestModel.fromSnapshot(e)).toList());
   }
 
+  /// Get all the request received by the user id
   Stream<List<RequestModel>> getReceivedRequests(String firebaseUid) {
     return _db
         .collection('/requests/')
@@ -24,6 +28,7 @@ class RequestsProvider with ChangeNotifier {
             snapshot.docs.map((e) => RequestModel.fromSnapshot(e)).toList());
   }
 
+  /// Create a request
   Future<bool> createRequest(
     String senderId,
     String senderName,
@@ -47,11 +52,14 @@ class RequestsProvider with ChangeNotifier {
     }
   }
 
+  /// Accept a request and update the request status to "Accepted".
+  /// If it is successful, then assign the broker into the paddock.
   Future<bool> acceptRequest(
     String requestId,
     String brokerId,
     String paddockId,
   ) async {
+    // Try to accept the request
     try {
       await _db
           .collection('/requests/')
@@ -61,6 +69,7 @@ class RequestsProvider with ChangeNotifier {
       return false;
     }
 
+    // Assign the broker into the paddock
     await _db
         .collection('/paddocks/')
         .doc(paddockId)
@@ -69,6 +78,7 @@ class RequestsProvider with ChangeNotifier {
     return true;
   }
 
+  /// Decline the request and updates the status to "Rejected"
   Future<bool> declineRequest(String requestId) async {
     try {
       await _db

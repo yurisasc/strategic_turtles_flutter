@@ -3,17 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:strategic_turtles/models/models.dart';
 
+/// Authentication service that notifies the widgets
+/// when the authentication status has changed/
 class AuthProvider with ChangeNotifier {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Firebase user one-time fetch
+  /// Firebase user one-time fetch
   auth.User get getUser => _auth.currentUser;
 
-  // Firebase user a realtime stream
+  /// Firebase user a realtime stream
   Stream<auth.User> get user => _auth.authStateChanges();
 
-  //Streams the firestore user from the firestore collection
+  /// Streams the Firestore user from the Firestore collection
   Future<UserModel> firestoreUser(auth.User firebaseUser) {
     if (firebaseUser?.uid != null) {
       return _db
@@ -24,7 +26,7 @@ class AuthProvider with ChangeNotifier {
     return null;
   }
 
-  //Method to handle user sign in using email and password
+  /// Method to handle user sign in using email and password
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -34,7 +36,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  // User registration using email and password
+  /// User registration using email and password
   Future<bool> registerWithEmailAndPassword(
     String firstName,
     String lastName,
@@ -67,7 +69,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  //updates the firestore users collection
+  /// Updates the Firestore users collection
   void _updateUserFirestore(UserModel user, auth.User firebaseUser) {
     _db
         .doc('/users/${firebaseUser.uid}')
@@ -79,11 +81,13 @@ class AuthProvider with ChangeNotifier {
     return _auth.signOut();
   }
 
+  /// Get user document by the user id
   Future<UserModel> getUserById(String id) {
     return _db.collection('/users/').where('uid', isEqualTo: id).get().then(
         (value) => value.docs.map((e) => UserModel.fromMap(e.data())).first);
   }
 
+  /// Edit the editable attributes of the user document
   void editProfile(
     String uid,
     String firstName,

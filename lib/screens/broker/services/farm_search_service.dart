@@ -3,11 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/utils/constants.dart';
 
+/// Service to enable farm searching for brokers
 class FarmSearchService with ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   ValueNotifier<List<UserModel>> farmers = ValueNotifier([]);
   List<UserModel> temp = [];
 
+  /// Search any farm
   Future<void> searchFarm(String uid, String query) async {
     if (query.length <= 1) {
       farmers.value = await _db

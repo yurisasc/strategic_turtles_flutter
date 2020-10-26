@@ -135,6 +135,7 @@ class _PaddockFormState extends State<PaddockForm> {
         widget.coordinate.longitude,
         double.parse(_paddockSqm),
         _cropName,
+        DateTime.now(),
         DateTime.now().add(Duration(days: 366)),
         0,
       );
