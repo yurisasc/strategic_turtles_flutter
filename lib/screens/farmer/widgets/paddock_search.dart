@@ -5,6 +5,9 @@ import 'package:strategic_turtles/screens/farmer/services/paddock_search_service
 import 'package:strategic_turtles/services/provider_requests.dart';
 import 'package:strategic_turtles/services/services.dart';
 
+/// Search popup widget that will be shown once a Farmer
+/// accepts a Broker request. The Farmer will be able to search
+/// their available Paddock and assign the broker to it.
 class PaddockSearch extends StatefulWidget {
   final RequestModel request;
   final Function onSuccess;
@@ -27,10 +30,11 @@ class _PaddockSearchState extends State<PaddockSearch> {
   @override
   void initState() {
     super.initState();
+
+    // Show all available paddocks on widget creation
     final paddockSearchService =
         Provider.of<PaddockSearchService>(context, listen: false);
     final authService = Provider.of<AuthProvider>(context, listen: false);
-
     uid = authService.getUser.uid;
     paddockSearchService.searchPaddock(uid, "");
   }
@@ -114,6 +118,8 @@ class _PaddockSearchState extends State<PaddockSearch> {
   }
 }
 
+/// Internal widget that represents the interface of each paddock item
+/// in the paddock search result.
 class PaddockItem extends StatelessWidget {
   final Function(PaddockModel) onSelected;
   final bool selected;

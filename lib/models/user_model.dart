@@ -1,4 +1,4 @@
-//User Model
+/// User Model
 class UserModel {
   String uid;
   String email;

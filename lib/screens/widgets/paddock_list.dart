@@ -8,6 +8,9 @@ import 'package:strategic_turtles/utils/constants.dart';
 
 import '../screens.dart';
 
+/// Shows a linear paddock list if the user is a Farmer.
+/// Shows a grouped paddock list if the user is a Broker.
+/// The paddock will be grouped by the Farm.
 class PaddockList extends StatelessWidget {
   final UserModel user;
   final ScrollController scrollController = ScrollController();
@@ -86,6 +89,7 @@ class PaddockList extends StatelessWidget {
   }
 }
 
+/// Internal widget to group in paddocks by the farm
 class GroupedPaddockItem extends StatelessWidget {
   final String farmId;
   final String farmName;

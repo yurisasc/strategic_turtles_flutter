@@ -230,6 +230,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  /// Validate and submit the form.
+  /// Change form state to not editing on successful submission.
   void _submitForm() {
     if (_formKey.currentState.saveAndValidate()) {
       final authService = Provider.of<AuthProvider>(context, listen: false);

@@ -3,6 +3,7 @@ import 'package:strategic_turtles/models/crops.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/screens/paddock_details_screen.dart';
 
+/// Widget for each paddock item in the paddock list
 class PaddockItem extends StatelessWidget {
   final PaddockModel paddock;
 

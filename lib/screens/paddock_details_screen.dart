@@ -34,6 +34,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    // Page initial states
     _isEditing = false;
     previousPaddockSize = widget.paddock.sqmSize;
     previousCropName = widget.paddock.cropName;
@@ -42,6 +43,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
         ? estimatedYield[0].toString()
         : 0.0.toString();
 
+    // Initialize crop choices
     Crops.getCropImageAsset().keys.forEach((crop) {
       this._crops.add(DropdownMenuItem(
             child: Text(crop),
@@ -53,6 +55,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
   @override
   void deactivate() {
     super.deactivate();
+    // Set loading and error status to null on leaving the page
     final paddockProvider = Provider.of<PaddockProvider>(context);
     paddockProvider.loading = false;
     paddockProvider.errorMessage = null;
@@ -115,6 +118,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
     );
   }
 
+  /// Floating action button to toggle edit mode.
   Widget floatingActionButtonEdit() {
     final paddockProvider = Provider.of<PaddockProvider>(context);
 
@@ -143,6 +147,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
     );
   }
 
+  /// The GoogleMap widget to take expanded width.
   Widget _paddockMapPosition(GeoCoord position) {
     return Expanded(
       child: GoogleMap(
@@ -156,6 +161,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
     );
   }
 
+  /// The paddock details that is editable if the form state is editing.
   Widget _paddockDetailsForm(bool isOwner) {
     final paddockProvider = Provider.of<PaddockProvider>(context);
 
@@ -290,6 +296,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
     );
   }
 
+  /// Use the paddock service to call prediction on the paddock.
   void _predict() async {
     final paddockService = Provider.of<PaddockProvider>(context, listen: false);
     final result = await paddockService.editPaddock(
@@ -305,6 +312,7 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
     }
   }
 
+  /// Prediction error message that is only shown if an error exists.
   Widget _predictionErrorMessage() {
     final paddockService = Provider.of<PaddockProvider>(context);
     return paddockService.errorMessage != null
@@ -315,25 +323,30 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
         : SizedBox.shrink();
   }
 
+  /// Submit form
   void _submitForm() async {
     if (_formKey.currentState.saveAndValidate()) {
       setState(() {
         _isEditing = false;
       });
 
-      final paddockService =
-          Provider.of<PaddockProvider>(context, listen: false);
-
+      // create a model for editing
       final model = widget.paddock;
       model.name = paddockName;
       model.cropName = cropName;
       model.sqmSize = paddockSize;
 
+      // edit the paddock and check if prediction is needed to be reran
+      final paddockService =
+          Provider.of<PaddockProvider>(context, listen: false);
+      final rerunPrediction = (previousPaddockSize != paddockSize) ||
+          (previousCropName != cropName);
       final result = await paddockService.editPaddock(
         model,
-        (previousPaddockSize != paddockSize) || (previousCropName != cropName),
+        rerunPrediction,
       );
 
+      // update the chart
       if (result != null) {
         setState(() {
           estimatedYield = result.estimatedYield;

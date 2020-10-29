@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:strategic_turtles/models/prediction_response.dart';
@@ -14,6 +13,7 @@ class ApiServiceIdentifier {
 
 class ApiService {
 
+  /// Call the prediction API to get farm yield prediction
   Future<PredictionResponse> predict(Map<String, dynamic> params) async {
     var client = http.Client();
 

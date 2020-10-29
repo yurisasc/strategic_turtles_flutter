@@ -75,12 +75,14 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
           );
   }
 
+  /// Function to navigate to paddock creation screen.
   void _createPaddock() {
     setState(() {
       _isCreatePaddock = true;
     });
   }
 
+  /// Callback function for the child widget to get back to this screen.
   void _back() {
     setState(() {
       _isCreatePaddock = false;

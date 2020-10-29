@@ -6,6 +6,8 @@ import 'package:strategic_turtles/models/crops.dart';
 import 'package:strategic_turtles/models/models.dart';
 import 'package:strategic_turtles/services/services.dart';
 
+/// Form widget that asks the Farmer to input Paddock details
+/// in order to create a Paddock.
 class PaddockForm extends StatefulWidget {
   final UserModel user;
   final GeoCoord coordinate;
@@ -47,6 +49,7 @@ class _PaddockFormState extends State<PaddockForm> {
   @override
   void deactivate() {
     super.deactivate();
+    // Set loading and error status to its initial state when leaving the screen
     final paddockProvider = Provider.of<PaddockProvider>(context);
     paddockProvider.loading = false;
     paddockProvider.errorMessage = null;
@@ -127,6 +130,8 @@ class _PaddockFormState extends State<PaddockForm> {
     );
   }
 
+  /// A simple submit button widget.
+  /// This button will be disabled when the system is predicting yield.
   Widget _submitButton(BuildContext context) {
     final paddockProvider = Provider.of<PaddockProvider>(context);
     return Container(
@@ -167,6 +172,8 @@ class _PaddockFormState extends State<PaddockForm> {
     );
   }
 
+  /// Prediction error message that is only shown when an error occured.
+  /// Otherwise it will be hidden
   Widget _predictionErrorMessage() {
     final paddockService = Provider.of<PaddockProvider>(context);
     return paddockService.errorMessage != null
@@ -177,6 +184,7 @@ class _PaddockFormState extends State<PaddockForm> {
         : SizedBox.shrink();
   }
 
+  /// Submit the form and create a paddock
   void _submit() async {
     final authService = Provider.of<AuthProvider>(context, listen: false);
     final paddockService = Provider.of<PaddockProvider>(context, listen: false);

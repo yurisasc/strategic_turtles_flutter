@@ -111,6 +111,10 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
     );
   }
 
+  /// Google map to take expanded width and height.
+  /// Once the user location has been provided, move the map camera
+  /// to the current location of the user.
+  /// On any tap interaction of the map, place a marker there.
   Widget _googleMap(UserLocation loc) {
     return Positioned.fill(
       child: GoogleMap(
@@ -127,6 +131,8 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
     );
   }
 
+  /// Remove the currently placed marker and place a new marker
+  /// on where the user last tapped the map.
   void _updateMarker(GeoCoord coordinate, {bool priority = false}) async {
     if (priority) {
       await Future.delayed(Duration(milliseconds: 20));
@@ -138,6 +144,8 @@ class _AddPaddockScreenState extends State<AddPaddockScreen> {
     });
   }
 
+  /// When the "current location" button is pressed, place a marker
+  /// on where the user location.
   void _selectCurrentLocation(UserLocation loc) {
     GoogleMap.of(_key).moveCamera(GeoCoord(loc.latitude, loc.longitude));
     _updateMarker(
