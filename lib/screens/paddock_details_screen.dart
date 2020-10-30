@@ -350,6 +350,8 @@ class _PaddockDetailsScreenState extends State<PaddockDetailsScreen> {
       if (result != null) {
         setState(() {
           estimatedYield = result.estimatedYield;
+          previousPaddockSize = result.sqmSize;
+          previousCropName = result.cropName;
         });
         _yieldController.text = estimatedYield[0].toString();
       }
