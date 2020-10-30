@@ -28,6 +28,7 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   void initState() {
     super.initState();
+    // Populate roles for dropdown menu
     Constants.roles.forEach((role) {
       this._roles.add(DropdownMenuItem(
             child: Text(role),
@@ -149,6 +150,7 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  /// Submit form and sign up
   void _signUp() {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     authProvider.registerWithEmailAndPassword(

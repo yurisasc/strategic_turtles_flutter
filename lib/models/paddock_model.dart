@@ -1,15 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PaddockModel {
   String id;
   String ownerId;
   String brokerId;
   String name;
+  String farmName;
   double latitude;
   double longitude;
   double sqmSize;
   String cropName;
+  DateTime createdDate;
   DateTime harvestDate;
   int numSeed;
-  double estimatedYield;
+  List<double> estimatedYield;
   double potentialProfit;
 
   PaddockModel({
@@ -17,43 +21,51 @@ class PaddockModel {
     this.ownerId,
     this.brokerId,
     this.name,
+    this.farmName,
     this.latitude,
     this.longitude,
     this.sqmSize,
     this.cropName,
+    this.createdDate,
     this.harvestDate,
     this.numSeed,
     this.estimatedYield,
     this.potentialProfit,
   });
 
-  factory PaddockModel.fromMap(Map data) {
+  factory PaddockModel.fromSnapshot(QueryDocumentSnapshot snapshot) {
+    final id = snapshot.id;
+    final data = snapshot.data();
+
     return PaddockModel(
-      id: data['id'],
+      id: id,
       ownerId: data['ownerId'],
       brokerId: data['brokerId'],
       name: data['name'],
+      farmName: data['farmName'],
       latitude: data['latitude'],
       longitude: data['longitude'],
       sqmSize: data['sqmSize'],
       cropName: data['cropName'],
+      createdDate: DateTime.parse(data['createdDate']).toLocal(),
       harvestDate: DateTime.parse(data['harvestDate']).toLocal(),
       numSeed: data['numSeed'],
-      estimatedYield: data['estimatedYield'],
+      estimatedYield: List.from(data['estimatedYield'] ?? []),
       potentialProfit: data['potentialProfit'],
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "ownerId": ownerId,
         "brokerId": brokerId,
         "name": name,
+        "farmName": farmName,
         "latitude": latitude,
         "longitude": longitude,
         "sqmSize": sqmSize,
         "cropName": cropName,
+        "createdDate": createdDate.toUtc().toString(),
         "harvestDate": harvestDate.toUtc().toString(),
         "numSeed": numSeed,
         "estimatedYield": estimatedYield,

@@ -6,7 +6,6 @@ import 'package:strategic_turtles/screens/farmer/farmer_home_screen.dart';
 import 'package:strategic_turtles/services/provider_firebase_auth.dart';
 import 'package:strategic_turtles/utils/constants.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();

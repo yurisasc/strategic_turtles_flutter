@@ -81,6 +81,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
+  /// Submit the form and login
   void _login() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     var auth = await authProvider.signInWithEmailAndPassword(_email, _password);

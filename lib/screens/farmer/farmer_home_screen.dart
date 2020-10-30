@@ -5,7 +5,6 @@ import 'package:strategic_turtles/screens/widgets/navigation_drawer/collapsing_n
 import 'package:strategic_turtles/screens/widgets/paddock_request/request_list.dart';
 
 import '../widgets/widgets.dart';
-import 'widgets/farmer_widgets.dart';
 
 class FarmerHomeScreen extends StatefulWidget {
   final UserModel user;
@@ -33,7 +32,7 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
                 CollapsingNavigationDrawer(
                   navigationItems: [
                     NavigationModel(
-                      title: 'Paddock List',
+                      title: 'Field List',
                       icon: Icons.list,
                       onTap: () {
                         setState(() {
@@ -70,18 +69,20 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
               onPressed: () {
                 _createPaddock();
               },
-              label: Text('Add paddock '),
+              label: Text('Add field '),
               icon: Icon(Icons.add),
             ),
           );
   }
 
+  /// Function to navigate to paddock creation screen.
   void _createPaddock() {
     setState(() {
       _isCreatePaddock = true;
     });
   }
 
+  /// Callback function for the child widget to get back to this screen.
   void _back() {
     setState(() {
       _isCreatePaddock = false;

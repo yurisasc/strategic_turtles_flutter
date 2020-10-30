@@ -1,36 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class RequestModel {
+  String id;
   String senderId;
   String senderName;
   String receiverId;
-  String paddockName;
-  String paddockId;
+  String receiverFarmName;
   String status;
 
   RequestModel({
+    this.id,
     this.senderId,
     this.senderName,
     this.receiverId,
-    this.paddockName,
-    this.paddockId,
+    this.receiverFarmName,
     this.status,
   });
 
-  factory RequestModel.fromMap(Map data) {
+  factory RequestModel.fromSnapshot(QueryDocumentSnapshot snapshot) {
+    final id = snapshot.id;
+    final data = snapshot.data();
+
     return RequestModel(
+      id: id,
       senderId: data['senderId'],
       senderName: data['senderName'],
       receiverId: data['receiverId'],
-      paddockName: data['paddockName'],
-      paddockId: data['paddockId'],
+      receiverFarmName: data['receiverFarmName'],
       status: data['status'],
     );
   }
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "senderId": senderId,
     "senderName": senderName,
     "receiverId": receiverId,
-    "paddockId": paddockId,
+    "receiverFarmName": receiverFarmName,
     "status": status,
   };
 }

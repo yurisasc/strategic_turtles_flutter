@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    isLogin = true;
+    isLogin = true; // show login page
   }
 
   @override
@@ -65,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  /// Login prompt
   Widget _loginTextButton() {
     return FlatButton(
       onPressed: () {
@@ -79,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  /// Sign up prompt
   Widget _signUpTextButton() {
     return FlatButton(
       onPressed: () {
