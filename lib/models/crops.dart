@@ -2,8 +2,10 @@ class Crops {
 
   static Map<String, String> getCropImageAsset() {
     return {
-      "Wheat" : 'assets/img/wheat_wide.png',
-      "Oats" : 'assets/img/oats.png',
+      'Oats' : 'assets/img/oats.png',
+      'Barley' : 'assets/img/barley.png',
+      'Wheat' : 'assets/img/wheat_wide.png',
+      'Maize' : 'assets/img/maize.png'
     };
   }
 }
