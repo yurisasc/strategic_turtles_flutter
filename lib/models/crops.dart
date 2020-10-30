@@ -5,7 +5,6 @@ class Crops {
       'Oats' : 'assets/img/oats.png',
       'Barley' : 'assets/img/barley.png',
       'Wheat' : 'assets/img/wheat_wide.png',
-      'Maize' : 'assets/img/maize.png'
     };
   }
 }
