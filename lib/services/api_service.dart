@@ -25,7 +25,6 @@ class ApiService {
           entry.value.toString() +
           ApiServiceIdentifier.PARAM_SEPARATOR;
     });
-    print(url);
 
     try {
       var response = await client.get(url).timeout(const Duration(seconds: 60));
