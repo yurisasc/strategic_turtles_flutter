@@ -1,16 +1,11 @@
-# strategic_turtles
+# DECO3801
+DECO3801 2020 Sem 2 Assignment
 
-A new Flutter project.
+## Project Details
+This is a Flutter web application, with the primary function of serving the user interaction page. The web API for the yield prediction site of the project (a separate project built with ASP.NET) can be found at https://github.com/Conman-123/DECO3801
 
-## Getting Started
+## Development Environment
+Android Studio or Visual Studio Code is needed to debug and run the code. Flutter and Dart plugin will have to be installed on the IDE. Flutter SDK also have to be installed on the system.
+To setup a Flutter environment, please refer to this documentation https://flutter.dev/docs/get-started/install
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Upon opening the project for the first time, all the required dependencies need to be downloaded. To do this, open **pubspec.yaml** and select _get dependencies_. The equivalent command line for this is **flutter pub get**.
